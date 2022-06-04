@@ -7,4 +7,4 @@ class Habit(models.Model):
 #the individual Habit and Value.
     IndHabit=models.TextField()
    
-    IndValue=models.IntegerField()
+    IndValue=models.IntegerField(default=0)
