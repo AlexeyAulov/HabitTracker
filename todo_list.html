@@ -1,0 +1,151 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+			integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+			crossorigin="anonymous"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+		/>
+		<link rel="stylesheet" href="{% static 'habits/styles.css' %} " />
+		<title>Habit Tracker</title>
+        <!-- footer css -->
+        <style>
+            #footer{
+            position:fixed;
+            bottom:0;
+            left:0;
+            width: 100%;
+
+            }
+        </style>
+	</head>
+
+    <!-- nav bar -->
+    <nav class="p-3 mb-2 bg-dark text-white">
+        <a class="navbar-brand" href="#">Habit Tracker Program:</a>
+      </nav>
+
+	<body class="bg-secondary">
+		<!--good-->
+		<div class="container">
+			<!--good-->
+			<div class="row mt-5">
+				<!--good-->
+				<div class="col-md-8 offset-md-2">
+					<!--good-->
+					<div class="card">
+						<!--good-->
+						<div class="card-header shadow-sm bg-white">
+							<h1 class="display-5 .text-dark">
+								Habit Tracker <i class="fa fa-unlock-alt" style="color: red"></i>
+							</h1>
+							<div class="card-body">
+								<ul class="list-group">
+									<li class="list-group-item">
+										<form
+											action="{% url 'insert_todo_item'%}"
+											method="post"
+											autocomplete="off"
+										>
+											{% csrf_token %}
+											<!--  value used by server to make sure if the post or response is from 
+										a trusted source or not -->
+											<div class="input-group">
+												<input type="text" class="form-control" name="content" placeholder="Input daily habits here">
+                                                
+												<div class="input-group-append text-info">
+													<span class="input-group-text bg-white py-0"
+														><button type="submit" class="btn btn-sm text-info">
+															<i class="fa fa-plus-circle fa-lg"></i>
+														</button>
+													</span>
+												</div>
+											</div>
+										</form>
+									</li>
+									{% for habit in habit_list %}
+									<li class="list-group-item ">
+										{{habit.IndHabit}}
+										 
+											<form
+												action="{% url 'decrement_habit_value' habit.id %}"
+												method="post"
+												class="d-inline"
+											>
+												{% csrf_token %}
+
+												<button type="submit" class="btn">
+													<i
+														class="fa fa-minus-circle fa-lg"
+														aria-hidden="true"
+													></i>
+												</button>
+											</form>
+											{{habit.IndValue}}
+											<form
+												action="{% url 'increment_habit_value' habit.id %}"
+												method="post"
+												class="d-inline"
+											>
+												{% csrf_token %}
+
+												<button type="submit" class="btn">
+													<i
+														class="fa fa-plus-circle fa-lg"
+														aria-hidden="true"
+													></i>
+												</button>
+											</form>
+										 
+                                            <form action=" {% url 'delete_todo_item' todo.id %}" method="post" class="float-end d-inline">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn">
+                                                    <i class="far fa-trash-alt fa-lg .bg-dark right"></i>
+                                                </button>
+                                            </form>
+									</li>
+									{% empty %}
+									<li class="list-group-item">
+										<span>No Habits Found!</span>
+									</li>
+									{% endfor %}
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+        
+
+        <!-- Footer -->
+    <footer class="bg-dark text-center text-white" id= "footer">
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+      2022 MLH Open Source orientation Hackaton
+          <!-- Github -->
+          <a class="btn btn-outline-light btn-floating m-1" href="https://github.com/AlexeyAulov/HabitTracker" role="button"
+          ><i class="fab fa-github"></i
+        ></a>
+    </div>
+         
+  </footer>
+    
+ 
+  <!-- End of .container -->
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+			crossorigin="anonymous"
+		></script>
+	</body>
+</html>
